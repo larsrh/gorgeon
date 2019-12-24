@@ -1,0 +1,33 @@
+{
+	"name": "gorgeon",
+	"version": "0.0.0",
+	"description": "pluggable static-site generator",
+	"author": "FND",
+	"license": "Apache-2.0",
+	"homepage": "https://github.com/FND/gorgeon",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/FND/gorgeon.git"
+	},
+	"bugs": {
+		"url": "https://github.com/FND/gorgeon/issues"
+	},
+	"main": "./src/index.js",
+	"scripts": {
+		"test": "npm run lint && npm run test:unit",
+		"test:unit": "mocha test/test_*.js",
+		"lint": "eslint --cache src test && echo ✓"
+	},
+	"engines": {
+		"node": ">=10"
+	},
+	"dependencies": {
+		"metacolon": "^1.1.0",
+		"txtx": "https://github.com/FND/txtx.git"
+	},
+	"devDependencies": {
+		"eslint-config-fnd": "^1.8.0",
+		"esm": "^3.2.25",
+		"mocha": "^6.2.2"
+	}
+}
