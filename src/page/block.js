@@ -1,4 +1,4 @@
-import { abort } from "./util.js";
+import { abort } from "../util.js";
 
 export default class ContentBlock {
 	constructor(format, params, content) {
