@@ -1,0 +1,2 @@
+ui: qunit
+require: esm
