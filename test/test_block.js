@@ -1,6 +1,6 @@
 /* global suite, before, after, test */
-import { parse } from "../src/index.js";
-import ContentBlock from "../src/block.js";
+import parse from "../src/page/parser.js";
+import ContentBlock from "../src/page/block.js";
 import { fixturePath, BufferedStream, raise } from "./util.js";
 import assert from "assert";
 
@@ -36,7 +36,7 @@ test("rendering", async () => {
 });
 
 test("decomposition", async () => {
-	let filepath = fixturePath("dossier.md");
+	let filepath = fixturePath("simple.md");
 	let { meta, blocks } = await parse(filepath);
 	assertDeep(meta, {
 		lang: "en",
