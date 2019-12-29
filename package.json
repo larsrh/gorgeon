@@ -26,6 +26,7 @@
 		"txtx": "https://github.com/FND/txtx.git"
 	},
 	"devDependencies": {
+		"commonmark": "^0.29.0",
 		"eslint-config-fnd": "^1.8.0",
 		"esm": "^3.2.25",
 		"mocha": "^6.2.2"
