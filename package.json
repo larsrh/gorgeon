@@ -26,6 +26,7 @@
 		"metacolon": "^1.1.0"
 	},
 	"devDependencies": {
+		"commonmark": "^0.29.0",
 		"eslint-config-fnd": "^1.8.0",
 		"esm": "^3.2.25",
 		"mocha": "^7.0.0"
