@@ -4,7 +4,7 @@ export let fileExt = filepath => path.extname(filepath).substr(1);
 
 // attempts to load a module, prompting the user to install the corresponding
 // package if it is unavailable
-export function load(pkg, errorMessage = "ERROR: missing package", supplier = pkg) {
+export function load(pkg, supplier = pkg, errorMessage = "ERROR: missing package") {
 	try {
 		return import(pkg);
 	} catch(err) {
