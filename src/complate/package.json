@@ -1,0 +1,6 @@
+{
+	"dependencies": {
+		"rodunj": "git+https://github.com/complate/rodunj.git",
+		"rollup": "^1.27.14"
+	}
+}
