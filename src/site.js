@@ -14,11 +14,20 @@ export default class WebSite {
 		let targetDir = path.resolve(this.root, await page.slug);
 		await fs.mkdir(targetDir, { recursive: true });
 
-		let html = await page.render(this.layouts, this.transforms, { targetDir });
-		filepath = path.resolve(targetDir, "index.html");
-		await fs.writeFile(filepath, html, {
-			flag: overwrite ? "w" : "wx"
+		let subs = 0;
+		let flag = overwrite ? "w" : "wx";
+		let html = await page.render(this.layouts, this.transforms, {
+			targetDir,
+			createSub: async (fileExtension, data) => { // TODO: rename?
+				let filename = `${subs}.${fileExtension}`;
+				subs++;
+				let filepath = path.resolve(targetDir, filename);
+				await fs.writeFile(filepath, data, { flag });
+				return filename;
+			}
 		});
+		filepath = path.resolve(targetDir, "index.html");
+		await fs.writeFile(filepath, html, { flag });
 		return filepath;
 	}
 }
