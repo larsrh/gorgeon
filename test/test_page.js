@@ -1,15 +1,20 @@
 /* global suite, test */
 import ContentPage from "../src/page/index.js";
 import renderMarkdown from "../src/markdown.js";
-import { fixturePath } from "./util.js";
+import { fixturePath, wait } from "./util.js";
 import { strictEqual as assertSame } from "assert";
+
+let LAYOUTS = {
+	default: document,
+	fragment: (params, html) => `----\n${html}\n----`
+};
 
 suite("content pages");
 
 test("rendering", async () => {
 	let filepath = fixturePath("simple.md");
 	let page = new ContentPage(filepath);
-	let html = await page.render(document, {
+	let html = await page.render(LAYOUTS, {
 		md: txt => renderMarkdown(txt),
 		html: html => html
 	});
@@ -38,10 +43,43 @@ sed do eiusmod tempor</p>
 	`.trim());
 });
 
-test("custom default format", async () => {
-	let filepath = fixturePath("custom.md");
+test("non-blocking layout", async () => {
+	let filepath = fixturePath("simple.md");
 	let page = new ContentPage(filepath);
-	let html = await page.render((params, html) => `----\n${html}\n----`, {
+	let html = await page.render({
+		default: async (params, html) => {
+			await wait(10);
+			return LAYOUTS.fragment(params, html.trim());
+		}
+	}, {
+		md: txt => `md:${txt.length}\n`,
+		html: code => `raw:${code.length}\n`
+	});
+	assertSame(html, `
+----
+md:27
+raw:121
+md:52
+----
+	`.trim());
+});
+
+test("custom layout", async () => {
+	let filepath = fixturePath("custom_layout.md");
+	let page = new ContentPage(filepath);
+	let html = await page.render(LAYOUTS, { md: txt => txt });
+	assertSame(html, `
+----
+lorem ipsum
+dolor sit amet
+----
+	`.trim());
+});
+
+test("custom default format", async () => {
+	let filepath = fixturePath("custom_format.md");
+	let page = new ContentPage(filepath);
+	let html = await page.render({ default: LAYOUTS.fragment }, {
 		txt: txt => txt,
 		html: html => html
 	});
