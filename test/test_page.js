@@ -76,6 +76,16 @@ dolor sit amet
 	`.trim());
 });
 
+test("slugs", async () => {
+	let filepath = fixturePath("simple.md");
+	let page = new ContentPage(filepath);
+	assertSame(await page.slug, "simple");
+
+	filepath = fixturePath("custom_slug.md");
+	page = new ContentPage(filepath);
+	assertSame(await page.slug, "dummy");
+});
+
 test("custom default format", async () => {
 	let filepath = fixturePath("custom_format.md");
 	let page = new ContentPage(filepath);
