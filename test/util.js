@@ -24,6 +24,14 @@ export class BufferedStream {
 	}
 }
 
+export function wait(delay) {
+	return new Promise(resolve => {
+		setTimeout(() => {
+			resolve();
+		}, delay);
+	});
+}
+
 export function raise(msg) {
 	throw new Error(msg);
 }

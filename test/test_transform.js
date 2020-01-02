@@ -1,16 +1,40 @@
 /* global suite, test */
 import ContentPage from "../src/page/index.js";
 import Bundle from "../src/complate/index.js";
-import { fixturePath } from "./util.js";
+import { fixturePath, wait } from "./util.js";
 import path from "path";
 import { strictEqual as assertSame } from "assert";
 
 suite("content transformation");
 
+test("non-blocking transforms", async () => {
+	let filepath = fixturePath("simple.md");
+	let page = new ContentPage(filepath);
+	let html = await page.render({
+		default: (meta, html) => `~~<>~~\n${html}--<>--`
+	}, {
+		md: async txt => {
+			await wait(10);
+			return `md:${txt.length}\n`;
+		},
+		html: async code => {
+			await wait(10);
+			return `raw:${code.length}\n`;
+		}
+	});
+	assertSame(html, `
+~~<>~~
+md:27
+raw:121
+md:52
+--<>--
+	`.trim());
+});
+
 test("complate support", async () => {
 	let filepath = fixturePath("componentized.md");
 	let page = new ContentPage(filepath);
-	let html = await page.render(document, {
+	let html = await page.render({ default: document }, {
 		md: txt => `<p>${txt.trim()}</p>`,
 		complate: (jsx, params, context) => {
 			let bundle = new Bundle(path.dirname(context.origin));
