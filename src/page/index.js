@@ -15,15 +15,10 @@ export default class ContentPage {
 			map(blk => blk.render(transforms, context)));
 		let html = blocks.join("");
 
-		let { layout } = meta;
-		if(layout) {
-			let id = layout;
-			layout = layouts[id];
-			if(!layout) {
-				abort(`ERROR: unknown layout \`${id}\` in \`${filepath}\``);
-			}
-		} else {
-			layout = layouts.default;
+		let layoutID = meta.layout || "default";
+		let layout = layouts[layoutID];
+		if(!layout) {
+			abort(`ERROR: unknown layout \`${layoutID}\` in \`${filepath}\``);
 		}
 		return layout(meta, html);
 	}
