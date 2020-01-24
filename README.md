@@ -8,7 +8,7 @@ Getting Started
 ---------------
 
 * `npm install gorgeon`
-* see `sample` directory for usage
+* see `samples` directory for usage
 
 
 Contributing
