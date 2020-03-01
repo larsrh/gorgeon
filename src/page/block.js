@@ -13,12 +13,14 @@ export default class ContentBlock {
 	// is invoked with `context`
 	// `context.origin` is the original content's file path
 	render(transforms, context) {
-		let { format } = this;
+		let { format, params } = this;
 		let transform = transforms[format];
 		if(!transform) {
-			abort(`ERROR: unknown format \`${format}\` for \`${context.origin}\``);
+			transform = transforms.default || abort("ERROR: " +
+					`unknown format \`${format}\` for \`${context.origin}\``);
+			params = { format, ...params };
 		}
-		return transform(this.content, this.params, context);
+		return transform(this.content, params, context);
 	}
 
 	toJSON() {

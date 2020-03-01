@@ -35,6 +35,19 @@ test("rendering", async () => {
 	}, /exit 1.*unknown format `adoc` for `.path.to.dummy`/);
 });
 
+test("default handler", async () => {
+	let block = new ContentBlock("python", { id: "abc123" }, "lipsum");
+	let context = { origin: "/path/to/dummy" };
+	assert.throws(() => {
+		block.render({}, context);
+	}, /exit 1.*unknown format `python` for `.path.to.dummy`/);
+
+	let res = block.render({
+		default: (txt, params, context) => `~${txt} ${JSON.stringify(params)}~`
+	}, context);
+	assertSame(res, '~lipsum {"format":"python","id":"abc123"}~');
+});
+
 test("decomposition", async () => {
 	let filepath = fixturePath("simple.md");
 	let { meta, blocks } = await parse(filepath);
