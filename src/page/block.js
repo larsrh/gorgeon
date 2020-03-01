@@ -12,7 +12,7 @@ export default class ContentBlock {
 	// `transforms` is a `{ format: transform }` object; the matching transform
 	// is invoked with `context`
 	// `context.origin` is the original content's file path
-	render(transforms, context) {
+	async render(transforms, context) {
 		let { format, params } = this;
 		let transform = transforms[format];
 		if(!transform) {

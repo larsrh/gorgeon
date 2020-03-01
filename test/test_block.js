@@ -1,7 +1,7 @@
 /* global suite, before, after, test */
 import parse from "../src/page/parser.js";
 import ContentBlock from "../src/page/block.js";
-import { fixturePath, BufferedStream, raise } from "./util.js";
+import { fixturePath, BufferedStream, wait, raise } from "./util.js";
 import assert from "assert";
 
 let { strictEqual: assertSame, deepStrictEqual: assertDeep } = assert;
@@ -24,25 +24,33 @@ after(() => {
 
 test("rendering", async () => {
 	let block = new ContentBlock("md", { id: "abc123" }, "lipsum");
-	let res = block.render({
+	let res = await block.render({
 		md: (txt, params, context) => `~${txt} ${JSON.stringify(params)}~`
 	});
 	assertSame(res, '~lipsum {"id":"abc123"}~');
 
-	block = new ContentBlock("adoc", null, "lipsum");
-	assert.throws(() => {
-		block.render({}, { origin: "/path/to/dummy" });
+	block = new ContentBlock("adoc", null, "lorem ipsum");
+	res = await block.render({
+		adoc: async (txt, params, context) => {
+			await wait(10);
+			return `~${txt} ${JSON.stringify(params)}~`;
+		}
+	});
+	assertSame(res, "~lorem ipsum {}~");
+
+	await assert.rejects(() => {
+		return block.render({}, { origin: "/path/to/dummy" });
 	}, /exit 1.*unknown format `adoc` for `.path.to.dummy`/);
 });
 
 test("default handler", async () => {
 	let block = new ContentBlock("python", { id: "abc123" }, "lipsum");
 	let context = { origin: "/path/to/dummy" };
-	assert.throws(() => {
-		block.render({}, context);
+	await assert.rejects(() => {
+		return block.render({}, context);
 	}, /exit 1.*unknown format `python` for `.path.to.dummy`/);
 
-	let res = block.render({
+	let res = await block.render({
 		default: (txt, params, context) => `~${txt} ${JSON.stringify(params)}~`
 	}, context);
 	assertSame(res, '~lipsum {"format":"python","id":"abc123"}~');
