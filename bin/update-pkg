@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+set -eu
+
+root=`dirname $0`
+root=`node -r fs -p "fs.realpathSync(process.argv[1]);" "$root/.."`
+
+abort() {
+	message="$@"
+
+	echo "$message" >&2
+	exit 1
+}
+
+which ncu || abort "ERROR: npm-check-updates missing"
+
+echo "==== updating gorgeon ====" >&2
+(cd "$root"; ncu -u)
+
+echo "==== updating gorgeon-complate ====" >&2
+(cd "$root/src/complate"; ncu -u)

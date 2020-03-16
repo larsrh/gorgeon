@@ -1,6 +1,6 @@
 {
 	"name": "gorgeon",
-	"version": "0.0.0",
+	"version": "0.8.0",
 	"description": "pluggable static-site generator",
 	"author": "FND",
 	"license": "Apache-2.0",
@@ -22,15 +22,16 @@
 		"node": ">=10"
 	},
 	"dependencies": {
-		"lampenfieber": "^1.0.0",
+		"lampenfieber": "^1.0.1",
 		"metacolon": "^1.1.0"
 	},
 	"devDependencies": {
-		"commonmark": "^0.29.0",
+		"commonmark": "^0.29.1",
 		"eslint-config-fnd": "^1.8.0",
 		"esm": "^3.2.25",
 		"faucet-pipeline-core": "git+https://github.com/faucet-pipeline/faucet-pipeline-core.git#plugin-api",
 		"gorgeon-complate": "./src/complate",
-		"mocha": "^7.0.0"
+		"mocha": "^7.1.0",
+		"release-util-fnd": "^2.0.0"
 	}
 }
