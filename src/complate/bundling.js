@@ -34,7 +34,7 @@ export default class Bundle {
 			// TODO: support for `external`
 			cache: this._cache
 		});
-		this._cache = bundle;
+		this._cache = bundle.cache;
 
 		let { output } = await bundle.generate({
 			...OUTPUT_CONFIG
