@@ -19,8 +19,8 @@ Contributing
 * `npm test` runs the test suite and checks code for stylistic consistency
 
 
-Releases
---------
+Release Process
+---------------
 
 NB: version numbers are incremented in accordance with
     [semantic versioning](https://semver.org)

@@ -22,16 +22,16 @@
 		"node": ">=10"
 	},
 	"dependencies": {
-		"lampenfieber": "^1.0.1",
+		"lampenfieber": "^1.1.0",
 		"metacolon": "^1.1.0"
 	},
 	"devDependencies": {
 		"commonmark": "^0.29.1",
 		"eslint-config-fnd": "^1.8.0",
 		"esm": "^3.2.25",
-		"faucet-pipeline-core": "git+https://github.com/faucet-pipeline/faucet-pipeline-core.git#plugin-api",
-		"gorgeon-complate": "./src/complate",
-		"mocha": "^7.1.0",
+		"faucet-pipeline-core": "^1.4.0",
+		"gorgeon-complate": "file:./src/complate",
+		"mocha": "^7.1.1",
 		"release-util-fnd": "^2.0.0"
 	}
 }

@@ -1,11 +1,12 @@
 import { abort } from "../util.js";
 
 export default class ContentBlock {
-	constructor(format, params, content) {
+	constructor(format, params, content, iblocks) {
 		Object.assign(this, {
 			format,
 			params: params || {},
-			content
+			content,
+			...(iblocks && { iblocks })
 		});
 	}
 
@@ -20,11 +21,23 @@ export default class ContentBlock {
 					`unknown format \`${format}\` for \`${context.origin}\``);
 			params = { format, ...params };
 		}
-		return transform(this.content, params, context);
+
+		let txt = transform(this.content, params, context);
+		let { iblocks } = this;
+		return !iblocks ? txt :
+			transformInlineBlocks(txt, iblocks, transforms, context);
 	}
 
 	toJSON() {
 		let { format, params, content } = this;
 		return { format, params, content };
 	}
+}
+
+async function transformInlineBlocks(txt, iblocks, ...args) {
+	return Object.entries(iblocks).reduce(async (memo, [id, block]) => {
+		let txt = await block.render(...args);
+		memo = await memo;
+		return memo.replace(id, txt);
+	}, txt);
 }

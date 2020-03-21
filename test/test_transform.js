@@ -31,6 +31,28 @@ md:52
 	`.trim());
 });
 
+test("inline blocks", async () => {
+	let filepath = fixturePath("inline.md");
+	let page = new ContentPage(filepath, { _iblockToken: "@iblock@" });
+	let html = await page.render({
+		default: (meta, html) => `<~>${html}</~>`
+	}, {
+		md: txt => `<p>${txt.trim()}</p>\n`,
+		quote: (txt, { author }) => `<blockquote>${txt} by ${author}</blockquote>\n`,
+		cite: (txt, params) => `<cite>${txt}</cite>`
+	});
+	assertSame(html, `
+<~><p>lorem ipsum
+dolor sit amet
+<cite>foo …</cite>
+consectetur adipisicing elit,
+sed do eiusmod tempor</p>
+<blockquote>bar by J. Doe</blockquote>
+<p><cite>baz</cite></p>
+</~>
+	`.trim());
+});
+
 test("complate support", async () => {
 	let filepath = fixturePath("componentized.md");
 	let page = new ContentPage(filepath);

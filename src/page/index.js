@@ -3,8 +3,11 @@ import { abort } from "../util.js";
 import path from "path";
 
 export default class ContentPage {
-	constructor(filepath) {
-		this.filepath = filepath;
+	constructor(filepath, _parserOptions) {
+		Object.assign(this, {
+			filepath,
+			...(_parserOptions && { _parserOptions })
+		});
 	}
 
 	async render(layouts, transforms, context) {
@@ -25,7 +28,7 @@ export default class ContentPage {
 
 	async _parse() {
 		if(!this._parsed) {
-			this._parsed = await parse(this.filepath);
+			this._parsed = await parse(this.filepath, this._parserOptions);
 		}
 		return this._parsed;
 	}
