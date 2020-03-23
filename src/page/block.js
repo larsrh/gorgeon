@@ -35,9 +35,10 @@ export default class ContentBlock {
 }
 
 async function transformInlineBlocks(txt, iblocks, ...args) {
-	return Object.entries(iblocks).reduce(async (memo, [id, block]) => {
-		let txt = await block.render(...args);
-		memo = await memo;
-		return memo.replace(id, txt);
-	}, txt);
+	iblocks = Object.entries(iblocks).map(async ([id, block]) => ({
+		id,
+		txt: await block.render(...args)
+	}));
+	[txt, ...iblocks] = await Promise.all([txt].concat(iblocks));
+	return iblocks.reduce((memo, { id, txt }) => memo.replace(id, txt), txt);
 }
