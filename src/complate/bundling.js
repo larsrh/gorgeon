@@ -1,71 +1,26 @@
-import diskless from "./diskless";
-import { load } from "../util.js";
+import { Bundle, Config } from "beatdown";
+import diskless from "beatdown/lib/diskless";
+import { Plugin } from "beatdown/lib/config/plugin";
+import rodunj from "rodunj";
+import acornJSX from "acorn-jsx";
 
-let RODUNJ, ROLLUP, JSX; // NB: loaded lazily
-
-let INPUT_CONFIG = {
-	treeshake: false // TODO: configurable?
-};
-let OUTPUT_CONFIG = {
-	indent: false,
-	compact: true,
-	format: "esm" // TODO: configurable?
-	// TODO: support for `name`, `globals`, `sourcemap`
-};
-
-export default class Bundle {
+export default class VirtualBundle extends Bundle {
 	constructor(referenceDir) {
-		this.referenceDir = referenceDir;
-		this._init();
+		let dl = diskless({ referenceDir });
+
+		let config = new Config(`${dl.prefix}:index.js`, {
+			treeshaking: false,
+			compact: true,
+			parser: acornJSX()
+		});
+		config.addPlugin(new Plugin("diskless", dl));
+		config.addPlugin(new Plugin("complate-rodunj", rodunj));
+		super(config);
+
+		this._diskless = dl;
 	}
 
-	async virtualModule(filename, code) {
-		await this._init();
+	virtualModule(filename, code) {
 		return this._diskless.register(filename, code);
-	}
-
-	async generate(entryPoint) {
-		await this._init();
-		let bundle = await ROLLUP({
-			acornInjectPlugins: [JSX],
-			...INPUT_CONFIG,
-			plugins: [RODUNJ, this._diskless],
-			input: entryPoint,
-			// TODO: support for `external`
-			cache: this._cache
-		});
-		this._cache = bundle.cache;
-
-		let { output } = await bundle.generate({
-			...OUTPUT_CONFIG
-		});
-		if(output.length !== 1) { // just to be safe
-			throw new Error("unexpected chunking");
-		}
-		let { code } = output[0];
-		return code;
-	}
-
-	// lazily loads dependencies before initializing
-	async _init() {
-		if(this._diskless) {
-			return;
-		}
-		if(this._pending) {
-			return this._pending;
-		}
-
-		let pending = this._pending = Promise.all([
-			"rodunj",
-			"rollup",
-			"acorn-jsx"
-		].map(pkg => load(pkg, "complate extension")));
-
-		let [rodunj, rollup, jsx] = await pending;
-		RODUNJ = rodunj.default;
-		ROLLUP = rollup.rollup;
-		JSX = jsx.default();
-
-		this._diskless = diskless(this.referenceDir);
 	}
 }

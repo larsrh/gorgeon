@@ -1,6 +1,6 @@
 /* global suite, test */
 import ContentPage from "../src/page/index.js";
-import { Bundle } from "../src/complate/index.js";
+import { makeBundle } from "../src/complate/index.js";
 import { fixturePath, wait } from "./util.js";
 import path from "path";
 import { strictEqual as assertSame } from "assert";
@@ -58,8 +58,8 @@ test("complate support", async () => {
 	let page = new ContentPage(filepath);
 	let html = await page.render({ default: document }, {
 		md: txt => `<p>${txt.trim()}</p>`,
-		complate: (jsx, params, context) => {
-			let bundle = new Bundle(path.dirname(context.origin));
+		complate: async (jsx, params, context) => {
+			let bundle = await makeBundle(path.dirname(context.origin));
 			return bundle.renderString(jsx, "snippet.jsx", params);
 		}
 	});

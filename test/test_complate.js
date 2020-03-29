@@ -1,12 +1,12 @@
 /* global suite, test */
-import { Bundle } from "../src/complate/index.js";
+import { makeBundle } from "../src/complate/index.js";
 import { fixturePath } from "./util.js";
 import { strictEqual as assertSame } from "assert";
 
 suite("complate extension");
 
 test("rendering", async () => {
-	let bundle = new Bundle(fixturePath());
+	let bundle = await makeBundle(fixturePath());
 	let html = await bundle.renderString(`
 import Article from "./article.jsx";
 
