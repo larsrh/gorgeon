@@ -4,18 +4,23 @@ set -eu
 
 root=`dirname $0`
 root=`node -r fs -p "fs.realpathSync(process.argv[1]);" "$root/.."`
+packages=`find "$root/pkg" -type d -d 1`
 
 abort() {
-	message="$@"
-
-	echo "$message" >&2
+	report "$@"
 	exit 1
 }
 
-which ncu || abort "ERROR: npm-check-updates missing"
+report() {
+	echo "$@" >&2
+}
 
-echo "==== updating gorgeon ====" >&2
+which ncu > /dev/null || abort "ERROR: npm-check-updates missing"
+
+report "== updating gorgeon =="
 (cd "$root"; ncu -u)
 
-echo "==== updating gorgeon-complate ====" >&2
-(cd "$root/src/complate"; ncu -u)
+for dir in $packages; do
+	report; report "== updating `basename $dir` =="
+	(cd "$dir"; ncu -u)
+done

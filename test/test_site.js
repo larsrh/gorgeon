@@ -32,8 +32,8 @@ md:52
 ----
 	`.trim());
 
-	await assert.rejects(async () => {
-		await site.createPage(filepath);
+	await assert.rejects(() => {
+		return site.createPage(filepath);
 	}, { code: "EEXIST" });
 
 	await assert.doesNotReject(async () => {

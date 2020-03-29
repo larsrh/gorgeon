@@ -1,0 +1,33 @@
+#!/usr/bin/env node
+"use strict";
+
+// ensures meta-packages use the same version number as the core package
+
+let path = require("path");
+
+let ROOT = path.resolve(__dirname, "..");
+
+let metaPackages = process.argv.slice(2);
+
+let { version, name: coreName } = require(`${ROOT}/package.json`);
+metaPackages.forEach(dir => {
+	if(!dir.startsWith(ROOT)) {
+		abort(`invalid meta-package path: \`${dir}\``);
+	}
+
+	let pkg = require(`${dir}/package.json`);
+	if(path.relative(ROOT, dir) !== `pkg/${pkg.name}`) {
+		abort(`invalid meta-package path for ${pkg.name}: \`${dir}\``);
+	}
+	if(pkg.version !== version) {
+		abort(`version mismatch in \`${dir}\``);
+	}
+	if(pkg.dependencies[coreName] !== version) {
+		abort(`dependency version mismatch in \`${dir}\``);
+	}
+});
+
+function abort(...msg) {
+	console.error("ERROR:", ...msg);
+	process.exit(1);
+}

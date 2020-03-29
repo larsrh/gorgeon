@@ -6,20 +6,23 @@ set -eu
 
 root=`dirname $0`
 root=`realpath "$root/.."`
-p_complate_root="$root/src/complate"
+branch="main"
+packages=`find "$root/pkg" -type d -d 1`
 
-pre_release_checks main
+report() {
+	echo "$@" >&2
+}
+
+pre_release_checks "$branch"
 npm test
 
-base_version=`node -p -e "require('$root/package.json').version"`
-p_complate_version=`node -p -e "require('$p_complate_root/package.json').version"`
-if [ "$base_version" != "$p_complate_version" ]; then
-	abort "version mismatch in complate plugin"
-fi
+"$root/bin/validate-versions" $packages
 
-echo "==== publishing gorgeon ====" >&2
+report "== publishing gorgeon =="
 create_package > /dev/null
-publish_package origin main
+publish_package origin "$branch"
 
-echo "==== publishing gorgeon-complate ====" >&2
-(cd "$p_complate_root"; npm publish)
+for dir in $packages; do
+	report; report "== publishing `basename $dir` =="
+	(cd "$dir"; npm publish)
+done
