@@ -1,34 +1,6 @@
-import { load, abort } from "../util.js";
+import { load } from "../util.js";
 import vm from "vm";
 import path from "path";
-
-let DOCTYPE = "<!DOCTYPE html>\n";
-let PLACEHOLDER = `%~${Math.random().toString().substr(2)}~%`;
-let LAYOUT = (component, filepath, placeholder) => `
-import { ${component} } from "${filepath}";
-
-<${component} {...context}>${placeholder}</${component}>
-`;
-
-// generates a layout function for the given `component` name, to be imported
-// from `filepath`, relative to `referenceDir`
-// XXX: workaround for Rodunj's lack of support for document types and raw HTML
-export async function makeRenderer(component, filepath, referenceDir) {
-	if(/[^a-zA-Z0-9]/.test(component)) { // primitive heuristic
-		abort("ERROR: layout component names must be alphanumeric; " +
-				`\`${component}\` is invalid`);
-	}
-	if(filepath.includes('"')) {
-		abort(`ERROR: invalid module path \`${component}\``);
-	}
-	let renderComponent = await makeTransform(referenceDir);
-	let jsx = LAYOUT(component, filepath, PLACEHOLDER);
-
-	return async function renderLayout(meta, html) {
-		let _html = await renderComponent(jsx, meta);
-		return DOCTYPE + _html.replace(PLACEHOLDER, html);
-	};
-}
 
 export async function makeTransform(referenceDir) {
 	let bundle = await makeBundle(referenceDir);
