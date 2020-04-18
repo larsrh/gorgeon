@@ -6,7 +6,7 @@ import { load } from "./util.js";
 // `allowHTML`, if `true`, permits embedding raw HTML
 // `resolveURI` allows modifying link targets
 export default async (txt, { smart = true, fragIDs, allowHTML, resolveURI } = {}) => {
-	let { HtmlRenderer, Parser } = await load("commonmark");
+	let { HtmlRenderer, Parser } = await load("commonmark", "gorgeon-markdown");
 
 	let reader = new Parser({ smart });
 	let root = reader.parse(txt);

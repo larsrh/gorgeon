@@ -16,7 +16,7 @@
 	"scripts": {
 		"test": "npm run lint && npm run test:unit",
 		"test:unit": "mocha test/test_*.js",
-		"lint": "eslint --cache ./src ./test ./bin/validate-versions && echo ✓"
+		"lint": "eslint --cache ./src ./test ./pkg ./bin/validate-versions && echo ✓"
 	},
 	"engines": {
 		"node": ">=10"
@@ -26,10 +26,10 @@
 		"metacolon": "^1.1.0"
 	},
 	"devDependencies": {
-		"commonmark": "^0.29.1",
 		"eslint-config-fnd": "^1.8.0",
 		"faucet-gorgeon": "file:./pkg/faucet",
 		"gorgeon-complate": "file:./pkg/complate",
+		"gorgeon-markdown": "file:./pkg/markdown",
 		"mocha": "^7.1.1",
 		"release-util-fnd": "^2.0.0"
 	}

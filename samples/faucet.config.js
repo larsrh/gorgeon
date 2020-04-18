@@ -1,7 +1,6 @@
 "use strict";
 
-require = require("esm")(module); // eslint-disable-line no-global-assign
-let renderMarkdown = require("../src/markdown.js").default;
+let renderMarkdown = require("gorgeon-markdown");
 let path = require("path");
 
 module.exports = {
