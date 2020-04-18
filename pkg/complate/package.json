@@ -1,6 +1,6 @@
 {
 	"name": "gorgeon-complate",
-	"version": "0.12.0",
+	"version": "0.12.1",
 	"description": "complate plugin for Gorgeon",
 	"author": "FND",
 	"license": "Apache-2.0",
@@ -17,7 +17,7 @@
 		"acorn-jsx": "5.2.0",
 		"beatdown": "^1.0.0",
 		"esm": "^3.2.25",
-		"gorgeon": "0.12.0",
+		"gorgeon": "0.12.1",
 		"rodunj": "^0.9.0"
 	}
 }
