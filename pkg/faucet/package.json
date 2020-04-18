@@ -1,0 +1,21 @@
+{
+	"name": "faucet-pipeline-gorgeon",
+	"version": "0.0.0",
+	"description": "Gorgeon plugin for faucet-pipeline",
+	"author": "FND",
+	"license": "Apache-2.0",
+	"homepage": "https://github.com/FND/gorgeon",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/FND/gorgeon.git"
+	},
+	"bugs": {
+		"url": "https://github.com/FND/gorgeon/issues"
+	},
+	"main": "./index.js",
+	"dependencies": {
+		"esm": "^3.2.25",
+		"gorgeon": "0.10.0",
+		"faucet-pipeline-core": "^1.4.0"
+	}
+}
