@@ -5,8 +5,7 @@ let { makeTransform } = require("gorgeon-complate");
 let { promises: fs } = require("fs");
 let path = require("path");
 
-let complate = makeTransform(__dirname);
-
+let COMPLATE = makeTransform(__dirname);
 let LAYOUT = path.resolve(__dirname, "layout.jsx");
 LAYOUT = fs.readFile(LAYOUT, "utf8");
 
@@ -17,18 +16,19 @@ module.exports = {
 		targetDir: "./dist",
 		layouts: {
 			default: async (meta, html) => {
-				let render = await complate;
 				html = await render(await LAYOUT, { params: meta, html });
 				return html.trim();
 			}
 		},
 		transforms: {
 			md: (md, params, context) => renderMarkdown(md, { fragIDs: true }),
-			complate: async (jsx, params, context) => {
-				let render = await complate;
-				return render(jsx, params);
-			}
+			complate: render
 		}
 	}],
 	plugins: [path.resolve(__dirname, "../src/faucet.js")]
 };
+
+async function render(jsx, params, context) {
+	let _render = await COMPLATE;
+	return _render(jsx, params, context);
+}
