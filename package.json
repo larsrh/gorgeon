@@ -1,6 +1,6 @@
 {
 	"name": "gorgeon",
-	"version": "0.10.0",
+	"version": "0.11.0",
 	"description": "pluggable static-site generator",
 	"author": "FND",
 	"license": "Apache-2.0",
@@ -16,7 +16,7 @@
 	"scripts": {
 		"test": "npm run lint && npm run test:unit",
 		"test:unit": "mocha test/test_*.js",
-		"lint": "eslint --cache ./bin/validate-versions ./src ./test && echo ✓"
+		"lint": "eslint --cache ./src ./test ./bin/validate-versions && echo ✓"
 	},
 	"engines": {
 		"node": ">=10"
