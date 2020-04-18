@@ -1,7 +1,6 @@
 "use strict";
 
 let renderMarkdown = require("gorgeon-markdown");
-let path = require("path");
 
 module.exports = {
 	watchDirs: ["./content"],
@@ -13,7 +12,7 @@ module.exports = {
 			md: (md, params, context) => renderMarkdown(md, { fragIDs: true })
 		}
 	}],
-	plugins: [path.resolve(__dirname, "../src/faucet.js")]
+	plugins: ["faucet-pipeline-gorgeon"]
 };
 
 // NB: does not HTML-encode input parameters

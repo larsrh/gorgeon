@@ -27,7 +27,7 @@
 	},
 	"devDependencies": {
 		"eslint-config-fnd": "^1.8.0",
-		"faucet-gorgeon": "file:./pkg/faucet",
+		"faucet-pipeline-gorgeon": "file:./pkg/faucet",
 		"gorgeon-complate": "file:./pkg/complate",
 		"gorgeon-markdown": "file:./pkg/markdown",
 		"mocha": "^7.1.1",

@@ -25,7 +25,7 @@ module.exports = {
 			complate: render
 		}
 	}],
-	plugins: [path.resolve(__dirname, "../src/faucet.js")]
+	plugins: ["faucet-pipeline-gorgeon"]
 };
 
 async function render(jsx, params, context) {
