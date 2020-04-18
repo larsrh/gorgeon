@@ -16,9 +16,6 @@ metaPackages.forEach(dir => {
 	}
 
 	let pkg = require(`${dir}/package.json`);
-	if(path.relative(ROOT, dir) !== `pkg/${pkg.name}`) {
-		abort(`invalid meta-package path for ${pkg.name}: \`${dir}\``);
-	}
 	if(pkg.version !== version) {
 		abort(`version mismatch in \`${dir}\``);
 	}

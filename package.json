@@ -28,8 +28,8 @@
 	"devDependencies": {
 		"commonmark": "^0.29.1",
 		"eslint-config-fnd": "^1.8.0",
-		"faucet-gorgeon": "file:./pkg/faucet-gorgeon",
-		"gorgeon-complate": "file:./pkg/gorgeon-complate",
+		"faucet-gorgeon": "file:./pkg/faucet",
+		"gorgeon-complate": "file:./pkg/complate",
 		"mocha": "^7.1.1",
 		"release-util-fnd": "^2.0.0"
 	}

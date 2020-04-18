@@ -23,6 +23,6 @@ create_package > /dev/null
 publish_package origin "$branch"
 
 for dir in $packages; do
-	report; report "== publishing `basename $dir` =="
+	report; report "== publishing `basename $dir` plugin =="
 	(cd "$dir"; npm publish)
 done

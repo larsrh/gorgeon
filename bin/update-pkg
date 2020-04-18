@@ -21,6 +21,6 @@ report "== updating gorgeon =="
 (cd "$root"; ncu -u)
 
 for dir in $packages; do
-	report; report "== updating `basename $dir` =="
+	report; report "== updating `basename $dir` plugin =="
 	(cd "$dir"; ncu -u)
 done
