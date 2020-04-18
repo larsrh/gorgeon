@@ -1,8 +1,7 @@
 "use strict";
 
-require = require("esm")(module); // eslint-disable-line no-global-assign
 let renderMarkdown = require("gorgeon-markdown");
-let { makeTransform } = require("../src/complate/index.js");
+let { makeTransform } = require("gorgeon-complate");
 let { promises: fs } = require("fs");
 let path = require("path");
 
