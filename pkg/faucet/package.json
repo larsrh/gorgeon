@@ -16,6 +16,6 @@
 	"dependencies": {
 		"esm": "^3.2.25",
 		"gorgeon": "0.12.1",
-		"faucet-pipeline-core": "^1.4.0"
+		"faucet-pipeline-core": "^1.5.0"
 	}
 }
