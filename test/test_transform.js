@@ -63,23 +63,20 @@ test("complate support", async () => {
 			return bundle.renderString(jsx, "snippet.jsx", params);
 		}
 	});
-	assertSame(html.replace(/\t/g, ""), `<!DOCTYPE html>
+	/* eslint-disable max-len */
+	assertSame(html, `<!DOCTYPE html>
 <html lang="en">
 <meta charset="utf-8">
 <title>Hello World</title>
 <body>
-<h1>Hello World</h1>
+	<h1>Hello World</h1>
 <p>lorem ipsum
-dolor sit amet</p><figure>
-
-    <canvas  width="100"  height="100">blank canvas</canvas>
-
-<figcaption>a blank canvas</figcaption>
-</figure><p>consectetur adipisicing elit,
+dolor sit amet</p><figure><canvas  width="100"  height="100">blank canvas</canvas><figcaption>a blank canvas</figcaption></figure><p>consectetur adipisicing elit,
 sed do eiusmod tempor</p>
 </body>
 </html>
 `);
+	/* eslint-enable max-len */
 });
 
 function document({ title }, html) {

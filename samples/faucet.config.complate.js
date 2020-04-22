@@ -15,10 +15,7 @@ module.exports = Promise.all([COMPLATE, LAYOUT]).then(([complate, layout]) => ({
 		pages: ["./content/index.md", "./content/components.md"],
 		targetDir: "./dist",
 		layouts: {
-			default: async (meta, html) => {
-				html = await complate(layout, { params: meta, html });
-				return html.trim();
-			}
+			default: (meta, html) => complate(layout, { params: meta, html })
 		},
 		transforms: {
 			md: (md, params, context) => renderMarkdown(md, { fragIDs: true }),
