@@ -39,14 +39,15 @@ test("inline blocks", async () => {
 	}, {
 		md: txt => `<p>${txt.trim()}</p>\n`,
 		quote: (txt, { author }) => `<blockquote>${txt} by ${author}</blockquote>\n`,
-		cite: (txt, params) => `<cite>${txt}</cite>`
+		cite: txt => `<cite>${txt}</cite>`,
+		footnote: txt => `<a href="#fn:${txt.length}">${txt}</a>`
 	});
 	assertSame(html, `
 <~><p>lorem ipsum
-dolor sit amet
 <cite>foo …</cite>
-consectetur adipisicing elit,
-sed do eiusmod tempor</p>
+dolor sit<a href="#fn:4">amet</a>, consectetur adipisicing
+<a href="#fn:4">elit</a>, sed do eiusmod<a href="#fn:6">tempor</a>
+incididunt ut labore</p>
 <blockquote>bar by J. Doe</blockquote>
 <p><cite>baz</cite></p>
 </~>

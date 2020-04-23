@@ -2,10 +2,14 @@ title: Hello World
 lang: en
 
 lorem ipsum
-dolor sit amet
 ```cite foo …```
-consectetur adipisicing elit,
-sed do eiusmod tempor
+dolor sit
+```<>footnote amet```
+, consectetur adipisicing
+```>footnote elit```
+, sed do eiusmod
+```<footnote tempor```
+incididunt ut labore
 
 ```quote author="J. Doe"
 bar
